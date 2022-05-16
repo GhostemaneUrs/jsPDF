@@ -7,11 +7,13 @@ const index = () => {
   const generatePDF = () => {
     const doc = document.getElementById('patient')
     html2canvas(doc).then(canvas => {
-      const imgData = canvas.toDataURL('image/png')
-      const pdf = new jsPDF('l', 'px', 'a4')
-      let width = pdf.internal.pageSize.getWidth()
-      let height = pdf.internal.pageSize.getHeight()
-      pdf.addImage(imgData, 'PNG', 0, 0, width, height)
+      const imgData = canvas.toDataURL('image/jpg')
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'pt',
+        format: [canvas.width, canvas.height],
+      })
+      pdf.addImage(imgData, 'JPEG', 0, 0, canvas.width, canvas.height)
       pdf.save('test.pdf')
     })
   }
